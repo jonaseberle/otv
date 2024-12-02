@@ -13,6 +13,7 @@ class Tile:
         self.name = self.tile.name
         (self.lat, self.long) = re.findall("([+-]\\d+)", str(self.name).lstrip("zOrtho4XP_").strip())
         self.verbose = opts["verbose"] if "verbose" in opts else 0
+        self.ignore_textures = opts["ignore_textures"] if "ignore_textures" in opts else 0
         self.errors = list()
         self.textures = dict()
         self.water_only = False
@@ -87,7 +88,7 @@ class Tile:
                     if not (self.tile / "textures" / texture_file).exists():
                         no_errors_found = False
                         if self.verbose > 3: print(color.Fore.RED + "NO REFERENCE IN TEXTURES")
-                        if texture_file not in self.textures:
+                        if texture_file not in self.textures and not self.ignore_textures:
                             self.errors.append("Terrain points to {}, which does not exist".format(texture_file))
                     else:
                         if self.verbose > 3: print(color.Fore.GREEN + "OKAY")

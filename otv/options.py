@@ -29,6 +29,8 @@ class ArgParse:
 
         defaults_group.add_argument("--all", action="store_true",
                                     help="check all tiles, regardless of previous status")
+        defaults_group.add_argument("--ignore-textures", dest="ignore_textures", action="store_true",
+                                    help="ignore missing .dds textures referenced from terrain (AutoOrtho mode)")
         pause_group = defaults_group.add_mutually_exclusive_group()
         pause_group.add_argument("-p", "-P", "--pause", action="store_true",
                                  help="Pause the program before exiting (default for Windows)")
@@ -50,3 +52,4 @@ class ArgParse:
         if self.args.quiet:
             self.args.verbosity = 0
             self.progress_bar = False
+            self.ignore_textures = False

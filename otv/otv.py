@@ -99,7 +99,7 @@ def main():
                 if args.verbosity > 2: print()
                 print("Analyzing Tile {:.<33} ".format(tile_name), end=(os.linesep if args.verbosity > 2 else ""))
 
-            tile_errors[tile_name] = Tile(tile, verbose=args.verbosity).validate()
+            tile_errors[tile_name] = Tile(tile, verbose=args.verbosity, ignore_textures=args.ignore_textures).validate()
 
             if len(tile_errors[tile_name]) == 0:
                 if args.verbosity == 2: print(color.Fore.GREEN + "OKAY")
