@@ -37,9 +37,10 @@ class Tile:
             return False
 
         if not os.listdir(path):
-            if self.verbose > 2: print(color.Fore.RED + "IS EMPTY")
-            self.errors.append("Directory \"{}\" IS EMPTY".format(directory))
-            return False
+            if directory != "textures":
+                if self.verbose > 2: print(color.Fore.RED + "IS EMPTY")
+                self.errors.append("Directory \"{}\" IS EMPTY".format(directory))
+                return False
 
         if self.verbose > 2: print(color.Fore.GREEN + "OKAY")
 
