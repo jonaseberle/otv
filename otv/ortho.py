@@ -11,7 +11,7 @@ class Tile:
     def __init__(self, tile, **opts):
         self.tile = Path(tile)
         self.name = self.tile.name
-        (self.lat, self.long) = re.findall("([+-]\d+)", str(self.name).lstrip("zOrtho4XP_").strip())
+        (self.lat, self.long) = re.findall("([+-]\\d+)", str(self.name).lstrip("zOrtho4XP_").strip())
         self.verbose = opts["verbose"] if "verbose" in opts else 0
         self.errors = list()
         self.textures = dict()
@@ -19,7 +19,7 @@ class Tile:
 
     def validate(self):
         for directory in self.DIRECTORIES:
-            getattr(self, "validate_{}".format(re.sub("\s+", "_", directory)))()
+            getattr(self, "validate_{}".format(re.sub("\\s+", "_", directory)))()
 
         return self.errors
 
@@ -53,7 +53,7 @@ class Tile:
     def validate_terrain(self):
         no_errors_found = True
         path = self.tile / "terrain"
-        texture_regex = re.compile("textures[\\/](.+\.dds)", re.IGNORECASE)
+        texture_regex = re.compile("textures[\\/](.+\\.dds)", re.IGNORECASE)
 
         self.textures = dict(terrain_check=True)
 
@@ -115,7 +115,7 @@ class Tile:
             print("  Validating {:.<35} ".format("TEXTURES DATA"), end=(os.linesep if self.verbose > 3 else ""))
 
         for texture_file in sorted(os.listdir(path)):
-            if re.match(".*\.dds", texture_file) is None: continue
+            if re.match(".*\\.dds", texture_file) is None: continue
 
             texture_count += 1
 
