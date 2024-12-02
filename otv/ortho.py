@@ -55,6 +55,7 @@ class Tile:
         no_errors_found = True
         path = self.tile / "terrain"
         texture_regex = re.compile("textures[\\/](.+\\.dds)", re.IGNORECASE)
+        masks_regex = re.compile("textures[\\/](.+\\.png)", re.IGNORECASE)
 
         self.textures = dict(terrain_check=True)
 
@@ -73,6 +74,22 @@ class Tile:
 
             with open(str(path / terrain_file)) as tf:
                 texture_data = tf.read()
+
+            masks = re.search(masks_regex, texture_data)
+
+            if masks is not None:
+                for mask in masks.groups():
+                    mask_file = Path(mask).name
+
+                    if not (self.tile / "textures" / mask_file).exists():
+                        no_errors_found = False
+                        if self.verbose > 3: print(color.Fore.RED + "NO REFERENCE IN MASKS")
+                        if mask_file not in self.textures:
+                            self.errors.append("Terrain points to mask {}, which does not exist".format(mask_file))
+                    else:
+                        if self.verbose > 3: print(color.Fore.GREEN + "OKAY")
+
+                    self.textures[mask_file] = None
 
             textures = re.search(texture_regex, texture_data)
 
