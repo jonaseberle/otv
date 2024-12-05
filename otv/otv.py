@@ -30,6 +30,9 @@ def __get_tiles_dir(directory):
     if glob(str(path / "zOrtho4XP_*")):
         return path
 
+    if str(path).startswith("zOrtho4XP_"):
+        return path
+
     return path if path.name == "Tiles" else (path / "Tiles")
 
 
@@ -57,8 +60,12 @@ def main():
 
     tiledb = DB(tiles_dir.parent)
 
-    tiles = sorted(tiles_dir.glob("zOrtho4XP_*"))
-    total_tiles_count = len(tiles)
+    if str(tiles_dir).startswith("zOrtho4XP_"):
+        tiles = [tiles_dir]
+        total_tiles_count = 1
+    else:
+        tiles = sorted(tiles_dir.glob("zOrtho4XP_*"))
+        total_tiles_count = len(tiles)
 
     # Eliminate any tiles we've previously validated
     if not args.all:
