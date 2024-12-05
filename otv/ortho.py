@@ -57,6 +57,12 @@ class Tile:
             self.errors.append(".dsf NOT FOUND")
             return False
 
+        for dsfFilename in dsfFilenames:
+            fileSize = os.stat(dsfFilename).st_size
+            if fileSize == 0:
+                self.errors.append(f'.dsf {dsfFilename} IS EMPTY')
+                return False
+
         return True
 
     def validate_terrain(self):
