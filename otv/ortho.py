@@ -2,6 +2,7 @@ import os
 import re
 import colorama as color
 
+from glob import glob
 from pathlib import Path
 
 
@@ -48,6 +49,12 @@ class Tile:
 
     def validate_earth_nav_data(self):
         if not self.validate_dir("Earth nav data"):
+            return False
+
+
+        dsfFilenames = glob(str(self.tile / "Earth nav data/*/*.dsf"))
+        if dsfFilenames == []:
+            self.errors.append(".dsf NOT FOUND")
             return False
 
         return True
