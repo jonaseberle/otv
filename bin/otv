@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
+
+# run from anywhere:
+# PIPENV_PIPFILE=~/Applications/otv/Pipfile pipenv run ~/Applications/otv/bin/otv
+
+from pathlib import Path
 import sys
-sys.path.append('../otv/')
+path_root = Path(__file__).parents[1]
+sys.path.append(str(path_root))
+
 from otv import otv
 otv.main()
