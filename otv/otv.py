@@ -22,7 +22,7 @@ def cleanup():
 
 
 def __get_tiles_dir(directory):
-    path = Path(directory)
+    path = Path(directory).resolve()
 
     if not path.is_dir():
         return None
@@ -30,7 +30,7 @@ def __get_tiles_dir(directory):
     if glob(str(path / "zOrtho4XP_*")):
         return path
 
-    if str(path).startswith("zOrtho4XP_"):
+    if str(path.name).startswith("zOrtho4XP_"):
         return path
 
     return path if path.name == "Tiles" else (path / "Tiles")
@@ -60,7 +60,7 @@ def main():
 
     tiledb = DB(tiles_dir.parent)
 
-    if str(tiles_dir).startswith("zOrtho4XP_"):
+    if str(tiles_dir.name).startswith("zOrtho4XP_"):
         tiles = [tiles_dir]
         total_tiles_count = 1
     else:
