@@ -31,7 +31,7 @@ class Tile:
         if self.verbose > 2: print("  Validating {:.<35} ".format(directory.upper() + " directory"), end="")
 
         if not path.is_dir():
-            if directory != "terrain":
+            if directory != "terrain" and directory != "textures":
                 if self.verbose > 2: print(color.Fore.RED + "NOT FOUND")
                 self.errors.append("Directory \"{}\" NOT FOUND".format(directory))
 
